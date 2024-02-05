@@ -1,4 +1,8 @@
-
+<form>
+    <input type="text" name="first_name" placeholder="imie">
+    <input type="text" name="last_name" placeholder="Nazwisko">
+    <input type="submit" value="Wyślij">
+</form>
 <ul>
     {%  for author in authors %}
         <li>{{ author.id  }} {{ author.first_name }} {{ author.last_name }} </li>

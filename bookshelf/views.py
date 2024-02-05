@@ -68,7 +68,11 @@ def add_author(request):
     return render(request, 'add_author.html', )
 
 def authors(request):
+    imie = request.GET.get('first_name', '')
+    nazwiska = request.GET.get('last_name', '')
     lst = Author.objects.all()
+    lst = lst.filter(first_name__icontains=imie, last_name__icontains=nazwiska)
+
     return render(request, 'authors.html', {'authors':lst})
 
 
