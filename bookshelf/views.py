@@ -67,6 +67,8 @@ def add_author(request):
         Author.objects.create(first_name=first_name, last_name=last_name)
     return render(request, 'add_author.html', )
 
-
+def authors(request):
+    lst = Author.objects.all()
+    return render(request, 'authors.html', {'authors':lst})
 
 
