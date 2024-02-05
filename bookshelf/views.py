@@ -3,6 +3,8 @@ from random import randint
 from django.http import HttpResponse
 from django.shortcuts import render
 
+from bookshelf.models import Author
+
 # Create your views here.
 nazwiska = [
     'Bogusłąwski',
@@ -55,4 +57,16 @@ def add_name(request):
     if request.method == "POST":
         last_name = request.POST.get('last_name')
         nazwiska.append(last_name)
-    return render(request, 'add_name.html')
+    return render(request, 'add_name.html', {'names':nazwiska})
+
+
+def add_author(request):
+    if request.method == "POST":
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        Author.objects.create(first_name=first_name, last_name=last_name)
+    return render(request, 'add_author.html', )
+
+
+
+

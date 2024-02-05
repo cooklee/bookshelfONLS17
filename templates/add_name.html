@@ -3,3 +3,10 @@
     <input type="text" name="last_name" placeholder="nazwisko">
     <input type="submit">
 </form>
+<p>
+<ul>
+    {% for n in names %}
+        <li>{{ n }}</li>
+    {% endfor %}
+</ul>
+</p>

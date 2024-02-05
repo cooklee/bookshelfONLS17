@@ -25,5 +25,7 @@ urlpatterns = [
     path('losuj/', views.losuj, name='losuj'),
     path('losuj_liczby/<int:ilosc>/', views.losuj_6, name='losuj_6'),
     path('nazwisko/<int:index>/', views.get_name, name='nazwiska'),
-    path('add_nazwisko/<str:name>/', views.add_name_by_url, name='add_name_by_url')
+    path('add_nazwisko/<str:name>/', views.add_name_by_url, name='add_name_by_url'),
+    path("add_last_name/", views.add_name, name='add_name2'),
+    path("add_author/", views.add_author, name='add_author'),
 ]
