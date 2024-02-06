@@ -1,9 +1,9 @@
 from random import randint
 
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
-from bookshelf.models import Author
+from bookshelf.models import Author, Publisher
 
 # Create your views here.
 nazwiska = [
@@ -86,3 +86,34 @@ def update_author(request, id):
         author.save()
     return render(request,'update_author.html', {'author':author})
 
+
+
+def create_publisher(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        city = request.POST.get('city')
+        Publisher.objects.create(name=name, city=city)
+    return render(request, 'publisher_create.html')
+
+def publishers(request):
+    publishers = Publisher.objects.all()
+    return render(request, 'list_publisher.html', {'publishers':publishers})
+
+def update_publisher(request, id):
+    publisher = Publisher.objects.get(id=id)
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        city = request.POST.get('city')
+        publisher.name = name
+        publisher.city = city
+        publisher.save()
+    return render(request, 'publisher_create.html', {'publisher':publisher})
+
+
+def delete_publisher(request, id):
+    publisher = Publisher.objects.get(id=id)
+    if request.method == 'POST':
+        if request.POST['submit'] == 'Tak':
+            publisher.delete()
+        return redirect('publishers')
+    return render(request, 'delete.html', {'publisher':publisher})

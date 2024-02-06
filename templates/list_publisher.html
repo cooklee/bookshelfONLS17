@@ -1,0 +1,18 @@
+<table>
+    <tr>
+        <th>lp</th>
+        <th>name</th>
+        <th>city</th>
+    </tr>
+
+        {% for publisher in publishers %}
+            <tr>
+            <td>{{ forloop.counter }}</td>
+            <td><a href="/update_publisher/{{ publisher.id }}/"> {{ publisher.name }}</a></td>
+            <td>{{ publisher.city }}</td>
+            <td><a href="/delete_publisher/{{ publisher.id }}/">X</a> </td>
+            </tr>
+        {% endfor %}
+
+
+</table>

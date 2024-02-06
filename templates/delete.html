@@ -1,0 +1,6 @@
+czy jestes pewien ze chcesz skasować {{ publisher }}?
+<form method="post">
+    <input type="submit" value="Tak" name="submit">
+    <input type="submit" value="Nie" name="submit">
+    {% csrf_token %}
+</form>
