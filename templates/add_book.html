@@ -3,12 +3,12 @@
     <form method="post">
         {% csrf_token %}
         <input type="text" name="title" placeholder="Tytuł">
-        <select>
+        <select name="author">
             {% for author in authors %}
                 <option value="{{ author.id }}">{{ author.first_name }} {{ author.last_name }}</option>
             {% endfor %}
         </select>
-        <select>
+        <select name="publisher">
             {% for publisher in publishers %}
                 <option value="{{ publisher.id }}">{{ publisher.name }} {{ publisher.city }}</option>
             {% endfor %}
