@@ -1,6 +1,9 @@
+{% extends 'base.html' %}
+{% block zawartosc %}
 <form method="post">
     <input type="text" name="name" placeholder="Nazwa" value="{{ publisher.name }}">
     <input type="text" name="city" placeholder="Miasto" value="{{ publisher.city }}">
     <input type="submit">
     {%  csrf_token %}
 </form>
+{% endblock %}

@@ -3,7 +3,7 @@ from random import randint
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
-from bookshelf.models import Author, Publisher
+from bookshelf.models import Author, Publisher, Book
 
 # Create your views here.
 nazwiska = [
@@ -15,7 +15,8 @@ nazwiska = [
     'tomczak'
 ]
 def index(request):
-    return HttpResponse("Hello World")
+
+    return render(request, 'base.html')
 
 
 def index_z_szablonem(request):
@@ -84,7 +85,8 @@ def update_author(request, id):
         author.first_name = imie
         author.last_name = nazwisko
         author.save()
-    return render(request,'update_author.html', {'author':author})
+    x = render(request,'update_author.html', {'author':author})
+    return x
 
 
 
@@ -117,3 +119,14 @@ def delete_publisher(request, id):
             publisher.delete()
         return redirect('publishers')
     return render(request, 'delete.html', {'publisher':publisher})
+
+
+def add_book(request):
+    publishers = Publisher.objects.all()
+    authors = Author.objects.all()
+    if request.method == 'POST':
+        author = request.POST.get('author')
+        title = request.POST.get('title')
+        publisher = request.POST.get('publisher')
+        Book.objects.create(author_id=author, title=title, publisher_id=publisher)
+    return render(request, 'add_book.html', {'authors':authors, 'publishers':publishers})

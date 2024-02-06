@@ -1,3 +1,5 @@
+{% extends 'base.html' %}
+{%  block zawartosc %}
 <form method="post">
     {% csrf_token %}
     <input type="text" name="first_name" value="{{ author.first_name }}">
@@ -5,3 +7,9 @@
     <input type="submit">
 
 </form>
+    <ul>
+    {% for book in author.book_set.all %}
+        <li>{{ book.title }}</li>
+    {% endfor %}
+    </ul>
+{% endblock %}

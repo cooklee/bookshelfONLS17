@@ -32,6 +32,7 @@ urlpatterns = [
     path("update_author/<int:id>/", views.update_author, name='authors'),
     path('create_publisher/', views.create_publisher, name='create_publisher'),
     path('publishers/', views.publishers, name='publishers'),
+    path('add_book/', views.add_book, name='add_book'),
     path('update_publisher/<int:id>/', views.update_publisher, name='update_publisher'),
     path('delete_publisher/<int:id>/', views.delete_publisher, name='delete_publisher'),
 
