@@ -29,4 +29,5 @@ urlpatterns = [
     path("add_last_name/", views.add_name, name='add_name2'),
     path("add_author/", views.add_author, name='add_author'),
     path("authors/", views.authors, name='authors'),
+    path("update_author/<int:id>/", views.update_author, name='authors'),
 ]

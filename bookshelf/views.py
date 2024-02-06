@@ -76,3 +76,13 @@ def authors(request):
     return render(request, 'authors.html', {'authors':lst})
 
 
+def update_author(request, id):
+    author = Author.objects.get(id=id)
+    if request.method == 'POST':
+        imie = request.POST['first_name']
+        nazwisko = request.POST['last_name']
+        author.first_name = imie
+        author.last_name = nazwisko
+        author.save()
+    return render(request,'update_author.html', {'author':author})
+

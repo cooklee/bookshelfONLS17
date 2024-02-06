@@ -5,7 +5,7 @@
 </form>
 <ul>
     {%  for author in authors %}
-        <li>{{ author.id  }} {{ author.first_name }} {{ author.last_name }} </li>
+        <li><a href="/update_author/{{ author.id  }}/">{{ author.first_name }} {{ author.last_name }}</a> </li>
     {% endfor %}
 
 </ul>
