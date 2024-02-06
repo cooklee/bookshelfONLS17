@@ -3,7 +3,7 @@ from random import randint
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
-from bookshelf.models import Author, Publisher, Book
+from bookshelf.models import Author, Publisher, Book, Genre
 
 # Create your views here.
 nazwiska = [
@@ -124,9 +124,13 @@ def delete_publisher(request, id):
 def add_book(request):
     publishers = Publisher.objects.all()
     authors = Author.objects.all()
+    genres = Genre.objects.all()
     if request.method == 'POST':
         author = request.POST.get('author')
         title = request.POST.get('title')
         publisher = request.POST.get('publisher')
-        Book.objects.create(author_id=author, title=title, publisher_id=publisher)
-    return render(request, 'add_book.html', {'authors':authors, 'publishers':publishers})
+        genres = request.POST.getlist('genres')
+        b = Book.objects.create(author_id=author, title=title, publisher_id=publisher)
+        b.genre.set(genres)
+
+    return render(request, 'add_book.html', {'authors':authors, 'publishers':publishers, 'genres':genres})

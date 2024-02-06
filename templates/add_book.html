@@ -8,13 +8,18 @@
                 <option value="{{ author.id }}">{{ author.first_name }} {{ author.last_name }}</option>
             {% endfor %}
         </select>
-    <select>
+        <select>
             {% for publisher in publishers %}
                 <option value="{{ publisher.id }}">{{ publisher.name }} {{ publisher.city }}</option>
             {% endfor %}
         </select>
+        <p>
+            {%  for genre in genres %}
+                <p><input type="checkbox" value="{{ genre.id }}" name="genres"> {{ genre.name }}</p>
+            {% endfor %}
+        </p>
 
         <input type="submit">
 
     </form>
-{% endblock %}                
+{% endblock %}
