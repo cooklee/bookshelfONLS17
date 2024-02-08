@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block zawartosc %}
+    <form method="post">
+        {% csrf_token %}
+        <input type="text" name="name" placeholder="Nazwa">
+        <input type="number" name="year" placeholder="Rok założenia">
+        <input type="submit">
+    </form>
+    <ul>
+    {% for message in messages %}
+
+        <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+{% endblock %}

@@ -3,8 +3,8 @@ from random import randint
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views import View
-
-from bookshelf.models import Author, Publisher, Book, Genre
+from django.contrib import messages
+from bookshelf.models import Author, Publisher, Book, Genre, Band
 
 # Create your views here.
 nazwiska = [
@@ -177,3 +177,19 @@ def add_to_session(request):
 def delete_session(request):
     del request.session['napis']
     return HttpResponse('skasowano ze słownik')
+
+
+class AddBandView(View):
+
+    def get(self, request):
+        return render(request, 'add_band.html')
+
+    def post(self, request):
+        name = request.POST['name']
+        year = request.POST['year']
+        Band.objects.create(name=name, year=year)
+        messages.info(request, f'dodan zespół o nazwie {name} rok założenia {year}')
+        # message.debug
+        # message.warring
+        # message.error
+        return redirect('add_band')

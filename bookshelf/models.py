@@ -45,3 +45,8 @@ class Movie(models.Model):
     title = models.CharField(max_length=50)
     director = models.ForeignKey(Person, on_delete=models.CASCADE, related_name="director_by")
     screenwriter = models.ForeignKey(Person, on_delete=models.CASCADE, related_name='writed_by')
+
+
+class Band(models.Model):
+    name = models.CharField(max_length=50)
+    year = models.IntegerField()
