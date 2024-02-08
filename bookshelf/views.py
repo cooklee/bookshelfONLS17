@@ -2,6 +2,7 @@ from random import randint
 
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.views import View
 
 from bookshelf.models import Author, Publisher, Book, Genre
 
@@ -14,9 +15,11 @@ nazwiska = [
     'grabiszyn',
     'tomczak'
 ]
+
+
 def index(request):
     napis = request.session.get('napis', "jeszcze nie jest ustawiony słownik")
-    return render(request, 'base.html', {'napis':napis})
+    return render(request, 'base.html', {'napis': napis})
 
 
 def index_z_szablonem(request):
@@ -25,13 +28,15 @@ def index_z_szablonem(request):
 
 def losuj(request):
     a = randint(1, 100)
-    return render(request, 'losuj.html', {'liczba':a})
+    return render(request, 'losuj.html', {'liczba': a})
+
 
 def losuj_6(request, ilosc):
     lst = []
     for _ in range(ilosc):
-        lst.append(randint(1,100))
-    return render(request, 'losuj.html', {'liczba':lst})
+        lst.append(randint(1, 100))
+    return render(request, 'losuj.html', {'liczba': lst})
+
 
 def losuj_7(request):
     return render(request, 'jakis_szablon.html')
@@ -42,7 +47,7 @@ def get_name(request, index):
         nazwisko = f"wybrano {nazwiska[index]}"
     else:
         nazwisko = "index jest za duży"
-    return render(request, 'list.html', {'nazwisko':nazwisko})
+    return render(request, 'list.html', {'nazwisko': nazwisko})
 
 
 def add_name_by_url(request, name):
@@ -58,7 +63,7 @@ def add_name(request):
     if request.method == "POST":
         last_name = request.POST.get('last_name')
         nazwiska.append(last_name)
-    return render(request, 'add_name.html', {'names':nazwiska})
+    return render(request, 'add_name.html', {'names': nazwiska})
 
 
 def add_author(request):
@@ -68,13 +73,14 @@ def add_author(request):
         Author.objects.create(first_name=first_name, last_name=last_name)
     return render(request, 'add_author.html', )
 
+
 def authors(request):
     imie = request.GET.get('first_name', '')
     nazwiska = request.GET.get('last_name', '')
     lst = Author.objects.all()
     lst = lst.filter(first_name__icontains=imie, last_name__icontains=nazwiska)
 
-    return render(request, 'authors.html', {'authors':lst})
+    return render(request, 'authors.html', {'authors': lst})
 
 
 def update_author(request, id):
@@ -85,9 +91,8 @@ def update_author(request, id):
         author.first_name = imie
         author.last_name = nazwisko
         author.save()
-    x = render(request,'update_author.html', {'author':author})
+    x = render(request, 'update_author.html', {'author': author})
     return x
-
 
 
 def create_publisher(request):
@@ -97,9 +102,11 @@ def create_publisher(request):
         Publisher.objects.create(name=name, city=city)
     return render(request, 'publisher_create.html')
 
+
 def publishers(request):
     publishers = Publisher.objects.all()
-    return render(request, 'list_publisher.html', {'publishers':publishers})
+    return render(request, 'list_publisher.html', {'publishers': publishers})
+
 
 def update_publisher(request, id):
     publisher = Publisher.objects.get(id=id)
@@ -109,7 +116,7 @@ def update_publisher(request, id):
         publisher.name = name
         publisher.city = city
         publisher.save()
-    return render(request, 'publisher_create.html', {'publisher':publisher})
+    return render(request, 'publisher_create.html', {'publisher': publisher})
 
 
 def delete_publisher(request, id):
@@ -118,7 +125,7 @@ def delete_publisher(request, id):
         if request.POST['submit'] == 'Tak':
             publisher.delete()
         return redirect('publishers')
-    return render(request, 'delete.html', {'publisher':publisher})
+    return render(request, 'delete.html', {'publisher': publisher})
 
 
 def add_book(request):
@@ -132,9 +139,33 @@ def add_book(request):
         genres = request.POST.getlist('genres')
         b = Book.objects.create(author_id=author, title=title, publisher_id=publisher)
         b.genre.set(genres)
+    response = render(request, 'add_book.html', {'authors': authors, 'publishers': publishers, 'genres': genres})
+    return response
 
-    return render(request, 'add_book.html', {'authors':authors, 'publishers':publishers, 'genres':genres})
 
+class AddBookView(View):
+
+    def context_data(self):
+        publishers = Publisher.objects.all()
+        authors = Author.objects.all()
+        genres = Genre.objects.all()
+        context = {'authors': authors, 'publishers': publishers, 'genres': genres}
+        return context
+
+    def get(self, request):
+        context = self.context_data()
+        return render(request, 'add_book.html',context )
+
+    def post(self, request):
+        context = self.context_data()
+        author = request.POST.get('author')
+        title = request.POST.get('title')
+        publisher = request.POST.get('publisher')
+        genres = request.POST.getlist('genres')
+        b = Book.objects.create(author_id=author, title=title, publisher_id=publisher)
+        b.genre.set(genres)
+
+        return render(request, 'add_book.html', context)
 
 
 def add_to_session(request):
@@ -143,15 +174,6 @@ def add_to_session(request):
     return HttpResponse("Udało sie dodać do słownika napis")
 
 
-
 def delete_session(request):
     del request.session['napis']
     return HttpResponse('skasowano ze słownik')
-
-
-
-
-
-
-
-
