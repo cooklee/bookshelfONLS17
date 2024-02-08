@@ -15,8 +15,8 @@ nazwiska = [
     'tomczak'
 ]
 def index(request):
-
-    return render(request, 'base.html')
+    napis = request.session.get('napis', "jeszcze nie jest ustawiony słownik")
+    return render(request, 'base.html', {'napis':napis})
 
 
 def index_z_szablonem(request):
@@ -134,3 +134,19 @@ def add_book(request):
         b.genre.set(genres)
 
     return render(request, 'add_book.html', {'authors':authors, 'publishers':publishers, 'genres':genres})
+
+
+
+def add_to_session(request):
+    napis = "Ala ma kota"
+    request.session['napis'] = napis
+    return HttpResponse("Udało sie dodać do słownika napis")
+
+
+
+
+
+
+
+
+

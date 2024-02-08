@@ -35,5 +35,5 @@ urlpatterns = [
     path('add_book/', views.add_book, name='add_book'),
     path('update_publisher/<int:id>/', views.update_publisher, name='update_publisher'),
     path('delete_publisher/<int:id>/', views.delete_publisher, name='delete_publisher'),
-
+    path('add_dict/', views.add_to_session, name='add_dict')
 ]
