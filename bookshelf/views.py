@@ -144,6 +144,11 @@ def add_to_session(request):
 
 
 
+def delete_session(request):
+    del request.session['napis']
+    return HttpResponse('skasowano ze słownik')
+
+
 
 
 
